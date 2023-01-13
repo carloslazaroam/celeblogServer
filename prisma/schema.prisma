@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  
+}
+
+model usuario {
+  id BigInt @id @default(autoincrement())
+  nombre String
+  apellidos String
+  email String @unique
+  usuario String @unique 
+  password String 
+  images String  
+  tipousuario tipousuario @relation(fields: [id_tipousuario],references: [id])
+  id_tipousuario BigInt 
+  posts post[]
+  comentarios comentario[]
+}
+
+model tipousuario {
+  id BigInt @id @default(autoincrement())
+  nombre String
+  usuarios usuario[]
+}
+
+model post {
+  id BigInt @id @default(autoincrement())
+  title String
+  contenido String
+ datetime DateTime
+ validacion Boolean
+ usuario usuario @relation(fields: [id_user],references: [id])
+ id_user BigInt
+ comentarios comentario[]
+ categoria categoria[]
+}
+
+model comentario {
+  id BigInt @id @default(autoincrement())
+  contenido String
+  datetime DateTime
+  puntuacion Boolean
+  usuario usuario @relation(fields: [id_user], references: [id])
+  id_user BigInt
+  post post @relation(fields: [id_post], references: [id])
+  id_post BigInt
+}
+
+model categoria {
+  id BigInt @id @default(autoincrement())
+  nombre String
+  descripcion String 
+  post post @relation(fields: [id_post], references: [id])
+  id_post BigInt
+
+  tipocategoria tipocategoria @relation(fields: [id_tipocategoria], references: [id])
+  id_tipocategoria BigInt
+}
+
+model tipocategoria {
+  id BigInt @id @default(autoincrement())
+  nombre String
+  categoria categoria[]
+
+}
+
+
