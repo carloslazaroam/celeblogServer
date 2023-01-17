@@ -15,6 +15,7 @@ const createUser = async (request, response) => {
                 email: request.body.email,
                 usuario: request.body.usuario,
                 images: request.file.path,
+                
                 password,
                 tipousuario: {
                     connect: {
@@ -161,13 +162,26 @@ const getPage = async (request, response) => {
 
 const nombres = ["Ainhoa", "Kevin", "Estefania", "Cristina",
     "Jose Maria", "Lucas Ezequiel", "Carlos", "Elliot", "Alexis", "Ruben", "Luis Fernando", "Karim", "Luis",
-    "Jose David", "Nerea", "Ximo", "Iris", "Alvaro", "Mario", "Raimon"];
+    "Jose David", "Nerea", "Ximo", "Iris", "Alvaro", "Mario", "Raimon","Victor", "Samuel", "Mario","Marito", "Peter", "Joaquin", "Vicente", "Ivan", "Adrian"];
 
 const apellidos = ["Benito", "Blanco", "Boriko", "Carrascosa", "Guerrero", "Gyori",
+    "Lazaro", "Luque", "Perez", "Perez", "Perez", "Rezgaoui", "Rodríguez", "Rosales", "Soler", "Soler", "Suay", "Talaya", "Tomas", "Vilar", "Baracus", "Cáceres", "Vera", "Casanova", "Navarro", "Lopez"
+, "Amrabat", "Alonso", "Martínez", "Gómez", "Serrano", "Cabañas"];
+
+    const images = ["Benito", "Blanco", "Boriko", "Carrascosa", "Guerrero", "Gyori",
     "Lazaro", "Luque", "Perez", "Perez", "Perez", "Rezgaoui", "Rodríguez", "Rosales", "Soler", "Soler", "Suay", "Talaya", "Tomas", "Vilar"];
 
-const usuarios = ["Beni", "Blan", "Boris", "Carras", "Joseguantes", "Gyo",
-    "Laza", "Luq", "Per", "Pere", "Perezoso", "Rezga", "Ro", "Rosa", "Saler", "Sol", "Guay", "Tala", "Tom", "Villar"];
+const usuarios = ["Catacroquer", 'Tenaz', 'Valiente', 'grande',	'pequeño',	'alto'	,'bajo',
+'gordo'	,'flaco'	,'ancho'	,'largo',
+'estrecho'	,'fino'	,'grueso'	,'delicado',
+'grotesco'	,'inteligente'	,'tonto'	,'hábil',
+'torpe'	,'culto'	,'ignorante'	,'limpio',
+'sucio'	,'frío'	,'caliente'	,'tibio',
+'cálido',	'helado'	,'espontáneo',	'simple',
+'complicado'	,'sencillo'	,'amable',	'gentil',
+'rudo'	,'bruto',	'astuto'	,'ingenuo',
+'humilde'	,'modesto'	,'presumido'	,'altanero',
+'curioso'	,'apático'	,'bello'	,'hermoso'];
 
 const generateUser = async (request, response) => {
     const userpass = 'password';
@@ -180,12 +194,14 @@ const generateUser = async (request, response) => {
                 email: nombres[Math.floor(Math.random() * nombres.length)] + "@gmail.com",
                 usuario: usuarios[Math.floor(Math.random() * usuarios.length)],
                 password,
+                images: images[Math.floor(Math.random() * usuarios.length)],
                 tipousuario: {
                     connect: { id: BigInt(Math.floor(Math.random() * 2) + 1) }
                 }
             }
         });
         delete result.password;
+        delete result.images;
         response.send(JSON.stringify(result));
     } catch (error) {
         console.log(error);
