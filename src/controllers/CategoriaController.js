@@ -13,14 +13,14 @@ const getCategoria = async (request, response) => {
                 id
             },
             include: {
-                post: true,
+            
                 tipocategoria: true
             }
             
 
         });
 
-        delete result.id_post;
+        
         delete result.id_tipocategoria;
         
         response.send(JSON.stringify(result));
@@ -39,11 +39,6 @@ const createCategoria = async (request, response) => {
                 
                 nombre: request.body.nombre,
                 descripcion: request.body.descripcion,
-                post: {
-                    connect: {
-                        id: BigInt(request.body.id_post)
-                    }
-                },
                 tipocategoria: {
                     connect: {
                         id: BigInt(request.body.id_tipocategoria)
@@ -72,11 +67,7 @@ const updateCategoria = async (request, response) => {
                 
                 nombre: request.body.nombre,
                 descripcion: request.body.descripcion,
-                post: {
-                    connect: {
-                        id: BigInt(request.body.id_post)
-                    }
-                },
+                
                 tipocategoria: {
                     connect: {
                         id: BigInt(request.body.id_tipocategoria)
@@ -122,6 +113,8 @@ const getPageCategoria = async (request, response) => {
     const direction = request.query.direction ? request.query.direction : 'asc';
 
     try {
+
+        const categoriaCount = await prisma.categoria.count()
         const result = await prisma.categoria.findMany({
             skip: (size * page),
             take: size,
@@ -135,20 +128,27 @@ const getPageCategoria = async (request, response) => {
             },
 
             include: {
-                post: true,
+                
                 tipocategoria: true
             }
 
             
         });
         result.forEach(categoria => {
-            delete categoria.id_post;
+           
             delete  categoria.id_tipocategoria
             
             
 
         });
-        response.send(JSON.stringify(result));
+        const categoriaResponse ={
+            content: result,
+            "totalRegisters" : result.length,
+            "totalPages": Math.round(categoriaCount / size),
+            "actualPage" : page
+        }
+        console.log(categoriaResponse);
+        response.send(JSON.stringify(categoriaResponse));
 
     } catch (error) {
         response.send(JSON.stringify("Error al buscar la página"));

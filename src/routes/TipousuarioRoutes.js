@@ -4,6 +4,6 @@ const entity = '/tipousuario';
 const { verifyToken } = require('../jwt/JWTUtils');
 const { getTipoUsuarios } = require('../controllers/TipoUsuarioController');
 
-router.get(`${entity}/all`,verifyToken , getTipoUsuarios);
+router.get(`${entity}/all` , getTipoUsuarios);
 
 module.exports = router;

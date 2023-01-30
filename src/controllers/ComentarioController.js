@@ -114,12 +114,14 @@ const deleteComentario = async (request, response) => {
 
 const getPageComentario = async (request, response) => {
     const page = request.query.page ? parseInt(request.query.page) : 0;
-    const size = request.query.size ? parseInt(request.query.size) : 0;
+    const size = request.query.size ? parseInt(request.query.size) : 5;
     const contenido = request.query.contenido ? request.query.contenido : '';
     const sort = request.query.sort ? request.query.sort : 'id';
     const direction = request.query.direction ? request.query.direction : 'asc';
 
     try {
+        const comentarioCount = await prisma.comentario.count()
+        
         const result = await prisma.comentario.findMany({
             skip: (size * page),
             take: size,
@@ -139,14 +141,22 @@ const getPageComentario = async (request, response) => {
             
         });
         result.forEach(comentario => {
-            delete comentario.id_user
+            
             
             
 
         });
-        response.send(JSON.stringify(result));
+        const comentarioResponse ={
+            content: result,
+            "totalRegisters" : result.length,
+            "totalPages": Math.round(comentarioCount / size),
+            "actualPage" : page
+        }
+        console.log(comentarioResponse);
+        response.send(JSON.stringify(comentarioResponse));
 
     } catch (error) {
+        console.log(error)
         response.send(JSON.stringify("Error al buscar la página"));
 
     }

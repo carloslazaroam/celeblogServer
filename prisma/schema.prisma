@@ -36,11 +36,10 @@ model post {
   title String
   contenido String
  datetime DateTime
- validacion Boolean
  usuario usuario @relation(fields: [id_user],references: [id])
  id_user BigInt
  comentarios comentario[]
- categoria categoria[]
+
 }
 
 model comentario {
@@ -58,8 +57,7 @@ model categoria {
   id BigInt @id @default(autoincrement())
   nombre String
   descripcion String 
-  post post @relation(fields: [id_post], references: [id])
-  id_post BigInt
+  
 
   tipocategoria tipocategoria @relation(fields: [id_tipocategoria], references: [id])
   id_tipocategoria BigInt

@@ -33,7 +33,7 @@ const createPost = async (request, response) => {
                 title: request.body.title,
                 contenido: request.body.contenido,
                 datetime: request.body.datetime,
-                validacion: request.body.validacion,
+                
                 usuario: {
                     connect: {
                         id: BigInt(request.body.id_user)
@@ -61,12 +61,8 @@ const updatePost = async (request, response) => {
                 title: request.body.title,
                 contenido: request.body.contenido,
                 datetime: request.body.datetime,
-                validacion: request.body.validacion,
-                usuario: {
-                    connect: {
-                        id: BigInt(request.body.id_user)
-                    }
-                }
+                
+                
 
             }
 
@@ -101,7 +97,7 @@ const deletePost = async (request, response) => {
 
 const getPage = async (request, response) => {
     const page = request.query.page ? parseInt(request.query.page) : 0;
-    const size = request.query.size ? parseInt(request.query.size) : 0;
+    const size = request.query.size ? parseInt(request.query.size) : 5;
     const title = request.query.title ? request.query.title : '';
     const sort = request.query.sort ? request.query.sort : 'id';
     const direction = request.query.direction ? request.query.direction : 'asc';
@@ -109,34 +105,42 @@ const getPage = async (request, response) => {
     try {
 
         const postCount = await prisma.post.count()
+
         const result = await prisma.post.findMany({
             skip: (size * page),
             take: size,
             where: {
                 title: {
-                    contains: title
-                }
+                    contains: title,
+                    
+                },
+               
+
+                
+
             },
             orderBy: {
                 [sort]: direction
             },
 
-            
+            include: {
+                usuario: true
+            }
         });
         result.forEach(post => {
-            
-            
 
-        });
+        })
         const postResponse ={
             content: result,
             "totalRegisters" : result.length,
             "totalPages": Math.round(postCount / size),
             "actualPage" : page
         }
+        console.log(postResponse);
         response.send(JSON.stringify(postResponse));
 
     } catch (error) {
+        console.log(error)
         response.send(JSON.stringify("Error al buscar la página"));
 
     }
