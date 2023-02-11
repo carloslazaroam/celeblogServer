@@ -148,7 +148,6 @@ const getPage = async (request, response) => {
             "totalPages": Math.round(userCount / size),
             "actualPage" : page
         }
-        console.log(userResponse);
         response.send(JSON.stringify(userResponse));
 
     } catch (error) {

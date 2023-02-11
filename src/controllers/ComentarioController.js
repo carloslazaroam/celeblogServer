@@ -2,8 +2,8 @@ const { PrismaClient } = require('@prisma/client');
 const { post } = require('../routes/AuthRoutes');
 const prisma = new PrismaClient();
 BigInt.prototype.toJSON = function () { return this.toString() }
+
 const getComentario = async (request, response) => {
-    
     const id = BigInt(request.params.id);
     try {
         const result = await prisma.comentario.findUnique({
@@ -14,8 +14,6 @@ const getComentario = async (request, response) => {
                 usuario: true,
                 post: true
             }
-            
-
         });
 
         delete result.id_user;
@@ -30,17 +28,16 @@ const getComentario = async (request, response) => {
 }
 
 const createComentario = async (request, response) => {
-    
+    console.log(request.body)
     try {
         const result = await prisma.comentario.create({
             data: {
-                
                 contenido: request.body.contenido,
-                datetime: request.body.datetime,
-                puntuacion: request.body.puntuacion,
+                puntuacion: BigInt(request.body.puntuacion),
+                datetime: new Date(),
                 usuario: {
                     connect: {
-                        id: BigInt(request.body.id_user)
+                        id: BigInt(request.body.id_usuario)
                     }
                 },
                 post: {
@@ -60,6 +57,7 @@ const createComentario = async (request, response) => {
 
 const updateComentario = async (request, response) => {
     const comentario = request.body;
+    
     const id = BigInt(comentario.id);
     try {
         const result = await prisma.comentario.update({
@@ -67,20 +65,19 @@ const updateComentario = async (request, response) => {
                 id
             },
             data: {
-                contenido: request.body.contenido,
-                datetime: request.body.datetime,
-                puntuacion: request.body.puntuacion,
-                usuario: {
-                    connect: {
-                        id: BigInt(request.body.id_user)
-                    }
-                },
-                post: {
-                    connect: {
-                        id: BigInt(request.body.id_post)
-                    }
-                }
-
+                contenido: comentario.contenido,
+                datetime: new Date(),
+                // puntuacion: comentario.puntuacion,
+                // usuario: {
+                //     connect: {
+                //         id: BigInt(comentario.id_user)
+                //     }
+                // },
+                // post: {
+                //     connect: {
+                //         id: BigInt(comentario.id_post)
+                //     }
+                // }
             }
 
         });
@@ -135,7 +132,8 @@ const getPageComentario = async (request, response) => {
             },
 
             include: {
-                usuario: true
+                usuario: true,
+                post: true
             }
 
             
@@ -152,7 +150,6 @@ const getPageComentario = async (request, response) => {
             "totalPages": Math.round(comentarioCount / size),
             "actualPage" : page
         }
-        console.log(comentarioResponse);
         response.send(JSON.stringify(comentarioResponse));
 
     } catch (error) {

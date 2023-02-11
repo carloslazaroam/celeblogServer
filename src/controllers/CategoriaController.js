@@ -111,6 +111,8 @@ const getPageCategoria = async (request, response) => {
     const nombre = request.query.nombre ? request.query.nombre : '';
     const sort = request.query.sort ? request.query.sort : 'id';
     const direction = request.query.direction ? request.query.direction : 'asc';
+    const tipocategoria = request.query.tipocategoria ? parseInt(request.query.tipocategoria) : 0;
+    
 
     try {
 
@@ -121,6 +123,8 @@ const getPageCategoria = async (request, response) => {
             where: {
                 nombre: {
                     contains: nombre
+                },AND: {
+                    id_tipocategoria: tipocategoria === 0 ? undefined : tipocategoria
                 }
             },
             orderBy: {
@@ -136,7 +140,7 @@ const getPageCategoria = async (request, response) => {
         });
         result.forEach(categoria => {
            
-            delete  categoria.id_tipocategoria
+            
             
             
 
@@ -147,7 +151,7 @@ const getPageCategoria = async (request, response) => {
             "totalPages": Math.round(categoriaCount / size),
             "actualPage" : page
         }
-        console.log(categoriaResponse);
+       
         response.send(JSON.stringify(categoriaResponse));
 
     } catch (error) {

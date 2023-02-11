@@ -11,6 +11,7 @@ const tipocategoriaRoutes = require('./routes/TipoCategoriaRoutes')
 const categoria = require('./routes/CategoriaRoutes')
 const cors = require('cors')
 const helmet = require('helmet')
+const morgan = require('morgan');
 
 
 
@@ -25,6 +26,7 @@ app.use(bodyParser.json({
 }));
 app.use(bodyParser.urlencoded({ extended:true }));
 app.use(helmet());
+app.use(morgan('tiny'));
 app.use(cors());
 app.use(usuarioRoutes);
 app.use(postRoutes);
