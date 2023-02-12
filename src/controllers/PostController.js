@@ -69,11 +69,7 @@ const updatePost = async (request, response) => {
                 title: request.body.title,
                 contenido: request.body.contenido,
                 datetime: new Date(),
-                categoria: {
-                    connect: {
-                        id: BigInt(request.body.id_categoria)
-                    }
-                },
+               
                 
             }
 
