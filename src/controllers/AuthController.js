@@ -1,6 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
-const { generateToken } = require('../jwt/JwtUtils')
-const {generateTokenResetPassword } = require('../jwt/JWTUtils');
+const {generateTokenResetPassword, generateToken } = require('../jwt/JWTUtils');
 const { setNewPassword } = require('../controllers/UsuarioController');
 const bcrypt = require('bcrypt');
 const sendMail = require('../mailer/MailerConfig');
@@ -30,6 +29,7 @@ const login = async (request, response) => {
             delete user.password;
             const data = {
                 ok: true,
+                id: user.id,
                 name: user.nombre,
                 imagen: user.images,
                 tipousuario: user.tipousuario.nombre,

@@ -104,7 +104,7 @@ const deletePost = async (request, response) => {
 
 const getPage = async (request, response) => {
     const page = request.query.page ? parseInt(request.query.page) : 0;
-    const size = request.query.size ? parseInt(request.query.size) : 5;
+    const size = request.query.size ? parseInt(request.query.size) : 6;
     const id_user = request.query.id_user  ? parseInt(request.query.id_user) : 0;
     const title = request.query.title ? request.query.title : '';
     const sort = request.query.sort ? request.query.sort : 'id';

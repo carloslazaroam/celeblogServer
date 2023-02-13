@@ -115,6 +115,7 @@ const getPageComentario = async (request, response) => {
     const contenido = request.query.contenido ? request.query.contenido : '';
     const sort = request.query.sort ? request.query.sort : 'id';
     const direction = request.query.direction ? request.query.direction : 'asc';
+    const id_post = request.query.id_post ? parseInt(request.query.id_post) : 0;
 
     try {
         const comentarioCount = await prisma.comentario.count()
@@ -125,7 +126,11 @@ const getPageComentario = async (request, response) => {
             where: {
                 contenido: {
                     contains: contenido
-                }
+                },
+                AND: {
+                    id_post: id_post  === 0 ? undefined : id_post
+
+                },
             },
             orderBy: {
                 [sort]: direction
