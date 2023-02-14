@@ -47,7 +47,7 @@ id_categoria BigInt
 model comentario {
   id BigInt @id @default(autoincrement())
   contenido String
-  puntuacion BigInt  
+  
  datetime DateTime
   usuario usuario @relation(fields: [id_user], references: [id])
   id_user BigInt

@@ -33,8 +33,9 @@ const createComentario = async (request, response) => {
         const result = await prisma.comentario.create({
             data: {
                 contenido: request.body.contenido,
-                puntuacion: BigInt(request.body.puntuacion),
+                
                 datetime: new Date(),
+                
                 usuario: {
                     connect: {
                         id: BigInt(request.body.id_usuario)
