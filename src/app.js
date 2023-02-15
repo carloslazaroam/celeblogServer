@@ -18,7 +18,7 @@ const morgan = require('morgan');
 
 
 app.listen(port, () => {
-    console.log('Server run') 
+    console.log('Server run' + ' ' + port) 
 });
 app.use(express.static('src/images'));
 app.use(bodyParser.json({
