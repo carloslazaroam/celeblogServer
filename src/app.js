@@ -1,9 +1,11 @@
 const express = require('express');
+const app = express();
+const port = process.env.PORT || 3000;
+
 const cors = require('cors')
 const helmet = require('helmet')
 const morgan = require('morgan');
-const app = express();
-const port = process.env.PORT || 3000;
+
 const bodyParser = require('body-parser');
 const usuarioRoutes = require('./routes/UsuarioRoutes');
 const postRoutes = require('./routes/PostRoutes');
