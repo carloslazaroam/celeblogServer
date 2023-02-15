@@ -1,4 +1,7 @@
 const express = require('express');
+const cors = require('cors')
+const helmet = require('helmet')
+const morgan = require('morgan');
 const app = express();
 const port = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
@@ -9,9 +12,7 @@ const authRoutes = require('./routes/AuthRoutes')
 const tipousuarioRoutes = require('./routes/TipousuarioRoutes')
 const tipocategoriaRoutes = require('./routes/TipoCategoriaRoutes')
 const categoria = require('./routes/CategoriaRoutes')
-const cors = require('cors')
-const helmet = require('helmet')
-const morgan = require('morgan');
+
 
 
 
