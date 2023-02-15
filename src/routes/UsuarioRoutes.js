@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { createUser, getUser, updateUser, deleteUser, getPage, generateUser } = require('../controllers/UsuarioController');
-const { verifyToken } = require('../jwt/JWTUtils');
+const { verifyToken } = require('../jwt/JwtUtils');
 const entity = '/usuario';
 const {upload} = require('../controllers/uploadController')
 

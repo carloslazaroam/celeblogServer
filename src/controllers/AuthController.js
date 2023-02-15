@@ -1,5 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
-const {generateTokenResetPassword, generateToken } = require('../jwt/JWTUtils');
+const {generateTokenResetPassword, generateToken } = require('../jwt/JwtUtils');
 const { setNewPassword } = require('../controllers/UsuarioController');
 const bcrypt = require('bcrypt');
 const sendMail = require('../mailer/MailerConfig');
